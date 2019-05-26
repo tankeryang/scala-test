@@ -167,7 +167,7 @@ class NotificationService {
     * @param notification
     * @return
     */
-  def showNotification(notification: Notification) = {
+  def showNotification(notification: Notification): String = {
     notification match {
       case Email(email, title, _) => s"You got an email from $email with title: $title"
       case SMS(number, message) => s"You got an SMS from $number! Message: $message"
