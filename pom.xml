@@ -62,6 +62,14 @@
             <version>${spark.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.scalaj/scalaj-http -->
+        <dependency>
+            <groupId>org.scalaj</groupId>
+            <artifactId>scalaj-http_2.11</artifactId>
+            <version>2.4.1</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
