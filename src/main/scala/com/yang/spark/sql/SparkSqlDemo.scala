@@ -3,7 +3,6 @@ package com.yang.spark.sql
 import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 
-import scala.reflect.internal.util.TableDef.Column
 
 object SparkSqlDemo {
   
