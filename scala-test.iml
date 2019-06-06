@@ -7,6 +7,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/scala" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/scala" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/out" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -310,5 +311,6 @@
     <orderEntry type="library" name="Maven: org.apache.curator:curator-framework:2.7.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.curator:curator-client:2.7.1" level="project" />
     <orderEntry type="library" name="Maven: org.scalaj:scalaj-http_2.11:2.4.1" level="project" />
+    <orderEntry type="library" name="Maven: net.sourceforge.argparse4j:argparse4j:0.8.1" level="project" />
   </component>
 </module>
