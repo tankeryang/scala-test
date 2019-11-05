@@ -15,7 +15,8 @@ object SparkCoreDemo {
     /*
      * word count 示例
      */
-    val rdd = sc.textFile("text.txt")
+    val path = getClass.getResource("/text.txt").getPath
+    val rdd = sc.textFile(path)
     val wc = rdd.flatMap(_.split(" ")).map((_, 1)).reduceByKey(_ + _)
     wc.foreach(println)
     

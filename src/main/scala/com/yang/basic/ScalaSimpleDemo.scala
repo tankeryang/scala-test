@@ -1,5 +1,7 @@
 package com.yang.basic
 
+import scala.util.matching.Regex
+
 object ScalaSimpleDemo {
   def main(args: Array[String]): Unit = {
     // 1
@@ -9,7 +11,7 @@ object ScalaSimpleDemo {
     // 2
     val bar = Bar("foo")
     println(bar.foo)
-    bar.bar
+    bar.bar()
     
     // 3
     val cat = new Cat("mimi")
@@ -32,6 +34,14 @@ object ScalaSimpleDemo {
     println(new NotificationService().showNotification(someEmail))
     println(new NotificationService().showNotification(someSms))
     println(new NotificationService().showNotification(someVoiceRecording))
+
+    // 7
+    val domain = "pornhub.com"
+    def getUrl = HighLevelFunc.urlBuilder(ssl = true, domain)
+    val endpoint = "users"
+    val query = "id=1"
+    val url = getUrl(endpoint, query)
+    println(url)
   }
 }
 
@@ -46,7 +56,7 @@ object ScalaSimpleDemo {
   */
 class People(name: String, age: Int) {
   
-  var gender: String = _
+  private var gender: String = _
   
   def this(name: String, age: Int, gender: String) = {
     this(name, age)
@@ -66,7 +76,7 @@ class People(name: String, age: Int) {
   */
 class Bar(val foo: String) {
   import Bar._
-  def bar = sayBar(foo)
+  def bar(): Unit = sayBar(foo)
 }
 
 /**
@@ -77,7 +87,22 @@ class Bar(val foo: String) {
 object Bar {
   def apply(foo: String): Bar = new Bar(foo)
   
-  private def sayBar(s: String) = println(s)
+  private def sayBar(s: String): Unit = println(s)
+}
+
+
+class EmailConfig(username: String, domain: String)
+
+/**
+  * 伴生对象 EmailConfig 包含一个工厂方法 fromString 用来根据传入的 emailString 来 new EmailConfig 实例
+  */
+object EmailConfig {
+  def fromString(emailString: String): Option[EmailConfig] = {
+    emailString.split("@") match {
+      case Array(a, b) => Some(new EmailConfig(a, b))
+      case _ => None
+    }
+  }
 }
 
 
@@ -127,7 +152,7 @@ trait RichIterator extends AbsIterator {
     *         有参数(单个)-无返回: SomeType => ()
     *         有参数(多个)-无返回: (SomeTypeA, SomeTypeB) => ()
     */
-  def foreach(f: T => Unit) = while (hasNext) f(next)
+  def foreach(f: T => Unit): Unit = while (hasNext) f(next)
 }
 
 /**
@@ -164,7 +189,7 @@ case class VoiceRecording(contactName: String, link: String) extends Notificatio
 class NotificationService {
   /**
     * 通过上面的 case class, 匹配 notification 对象
-    * @param notification
+    * @param notification:
     * @return
     */
   def showNotification(notification: Notification): String = {
@@ -174,4 +199,39 @@ class NotificationService {
       case VoiceRecording(name, link) => s"you received a Voice Recording from $name! Click the link to hear it: $link"
     }
   }
+
+  /**
+    * 模式守卫，在模式后面加上 if ... 做更多具体限制
+    * @param notification:
+    * @param importantPeopleInfo:
+    * @return
+    */
+  def showImportantNotification(notification: Notification, importantPeopleInfo: Seq[String]): String = {
+    notification match {
+      case Email(sender, _, _) if importantPeopleInfo.contains(sender) => "You got an email from special someone!"
+      case SMS(number, _) if importantPeopleInfo.contains(number) => "You got an SMS from special someone!"
+      case n: Notification => showNotification(n)
+    }
+  }
+}
+
+
+// ================================ 高阶函数 =================================
+object HighLevelFunc {
+  /**
+    * 函数作为返回
+    * @param ssl:
+    * @param domain:
+    * @return
+    */
+  def urlBuilder(ssl: Boolean, domain: String): (String, String) => String = {
+    val schema = if (ssl) "https" else "http"
+    (endpoint: String, query: String) => s"$schema://$domain/$endpoint?$query"
+  }
+}
+
+// ================================ 正则表达式 ================================
+object RegexDemo {
+  val numberPattern: Regex = "[0-9]".r
+
 }

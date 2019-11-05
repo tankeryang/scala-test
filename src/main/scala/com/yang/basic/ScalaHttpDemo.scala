@@ -3,7 +3,7 @@ package com.yang.basic
 import scalaj.http._
 
 
-object ScalajHttpDemo {
+object ScalaHttpDemo {
   
   def main(args: Array[String]): Unit = {
     
